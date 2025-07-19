@@ -385,6 +385,14 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :api do
+    namespace :v1 do
+      resources :accounts do
+        resources :whatsapp_templates, only: [:index, :create], module: :accounts
+      end
+    end
+  end
+
   if ChatwootApp.enterprise?
     namespace :enterprise, defaults: { format: 'json' } do
       namespace :api do

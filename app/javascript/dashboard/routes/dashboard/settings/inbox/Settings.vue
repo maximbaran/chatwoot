@@ -25,6 +25,7 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { WIDGET_BUILDER_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
+import TemplateManager from 'dashboard/components/inbox/whatsapp/TemplateManager.vue';
 
 export default {
   components: {
@@ -46,6 +47,7 @@ export default {
     InstagramReauthorize,
     DuplicateInboxBanner,
     Editor,
+    TemplateManager,
   },
   mixins: [inboxMixin],
   setup() {
@@ -163,6 +165,16 @@ export default {
           {
             key: 'botConfiguration',
             name: this.$t('INBOX_MGMT.TABS.BOT_CONFIGURATION'),
+          },
+        ];
+      }
+
+      if (this.shouldShowWhatsAppConfiguration) {
+        visibleToAllChannelTabs = [
+          ...visibleToAllChannelTabs,
+          {
+            key: 'whatsappTemplates',
+            name: 'WA Templates',
           },
         ];
       }
@@ -817,6 +829,15 @@ export default {
       </div>
       <div v-if="selectedTabKey === 'botConfiguration'">
         <BotConfiguration :inbox="inbox" />
+      </div>
+      <div v-if="selectedTabKey === 'whatsappTemplates'" class="mx-8">
+        <SettingsSection
+          title="WhatsApp Templates"
+          sub-title="Manage WhatsApp message templates via Meta API"
+          :show-border="false"
+        >
+          <TemplateManager :inbox-id="currentInboxId" />
+        </SettingsSection>
       </div>
     </section>
   </div>
